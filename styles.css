@@ -7,11 +7,13 @@
   --headline: #212529;
   --paragraph: #495057;
 
-  --nav-height: 7.2rem;
+  --nav-height: 7.2rem; /* para somar na altura do header::before e na margin-top do header*/
 }
 
+/* aplica para todos os elementos */
 * {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -20,21 +22,35 @@ body {
   font-size: 1.6rem;
 
   text-align: center;
+
+  overflow: overlay;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+/* classe colocada em volta do header e da div para aplicar margin, padding e width */
 .wrapper {
-  margin-inline: auto;
-  padding-inline: 2.4rem;
+  margin-inline: auto; /* margin-right e margin-left */
+  padding-inline: 2.4rem; /* padding-right e padding-left */
   width: 37.5rem;
+}
+
+ul {
+  list-style: none;
 }
 
 /* HEADER ================================================================= */
 
+/* fundo verde claro */
 header::before {
   content: '';
 
-  width: 100vw;
-  height: calc(108rem + var(--nav-height));
+  width: 100%;
+  height: calc(108rem + var(--nav-height)); /* soma com a altura da navbar */
 
   background: var(--secondary-color);
 
@@ -43,11 +59,13 @@ header::before {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -1; /* joga para trás de index maiores */
 }
 
 header {
-  margin-top: calc(4.1rem + var(--nav-height));
+  margin-top: calc(
+    4.1rem + var(--nav-height)
+  ); /* soma com a altura da navbar */
 }
 
 header h4 {
@@ -89,7 +107,7 @@ header button {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.6rem;
+  gap: 1.6rem; /* espaçamento entre os itens no display flex */
 
   margin-inline: auto;
   margin-bottom: 6rem;
@@ -99,7 +117,7 @@ header img {
   width: 26.4rem;
   display: block;
   margin-inline: auto;
-  object-position: 0 0.1rem;
+  object-position: 0 0.1rem; /* mexe no objeto dentro da imagem, podendo "grudá-lo" na(s) borda(s)  */
 }
 
 .container {
@@ -113,13 +131,12 @@ header img {
   border: 1px solid #dce9e2;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* altera a disposição dos itens para em coluna */
   justify-content: center;
   gap: 6rem;
 }
 
 .stat {
-  /* transform: matrix(-1, 0, 0, 1, 0, 0); */
   width: 16.7rem;
   height: 9rem;
 
@@ -151,16 +168,18 @@ nav {
 
   height: var(--nav-height);
 
-  position: fixed;
+  position: fixed; /* posição fixa independente do scroll da página */
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(
+    -50%
+  ); /* movimenta o elemento no eixo X, em % para não precisar ficar fazendo cálculos */
 }
 
 nav .wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* coloca um espaço entre os itens(máximo possível) */
 }
 
 nav.scroll {
@@ -169,9 +188,117 @@ nav.scroll {
 }
 
 nav.scroll svg:nth-child(1) path {
+  /* primeiro que encontrar */
   fill: white;
 }
 
-nav.scroll svg:nth-child(2) path {
+nav.scroll button path {
+  /* segundo que encontrar */
+  stroke: white;
+}
+
+nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* MENUEXP ================================================================= */
+body.menu-expanded {
+  overflow: hidden; /* retira o que tiver transbordando da tela */
+}
+
+body.menu-expanded > :not(nav) {
+  /* aplica o display none para todos os filhos do primeiro nível(>) exceto(:not()) o nav */
+  display: none;
+}
+
+.menu,
+.close-menu,
+body.menu-expanded .open-menu {
+  /* para não aparecer */
+  opacity: 0;
+  visibility: hidden;
+}
+
+body.menu-expanded .menu,
+body.menu-expanded .close-menu {
+  /* para aparecer */
+  opacity: 1;
+  visibility: visible;
+}
+
+body.menu-expanded .menu {
+  /* quando o body tiver com a classe menu-expanded */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--primary-color);
+
+  width: 100vw;
+  height: 100vh;
+
+  padding-top: var(--nav-height);
+}
+
+body.menu-expanded nav {
+  /* quando o body tiver com a classe menu-expanded */
+  position: relative;
+}
+
+.menu ul:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  gap: 4.8rem;
+
+  margin-top: 6rem;
+
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 3.1rem;
+}
+
+.menu ul li a {
+  /* cor e decoração precisam ser aplicadas diretamente no elemento a */
+  text-decoration: none;
+  color: #fffaf1;
+}
+
+.menu .button {
+  background: #ffffff;
+  border-radius: 4rem;
+
+  display: inline-block;
+
+  padding: 16px 32px;
+  margin-top: 4.8rem;
+  margin-bottom: 8rem;
+
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 2.3rem;
+  text-transform: uppercase;
+  text-decoration: none; /* tira a decoração do texto */
+  color: var(--primary-color);
+}
+
+.social-medias-links {
+  display: flex;
+  gap: 3.2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+body.menu-expanded .logo,
+body.menu-expanded button {
+  position: relative; /* destrava o z-index */
+  z-index: 1;
+}
+
+body.menu-expanded .logo path {
+  fill: white;
+}
+
+body.menu-expanded button path {
   stroke: white;
 }

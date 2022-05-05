@@ -6,6 +6,8 @@
   --secondary-color: #dce9e2;
   --headline: #212529;
   --paragraph: #495057;
+
+  --nav-height: 7.2rem;
 }
 
 * {
@@ -22,6 +24,7 @@ body {
 
 .wrapper {
   margin-inline: auto;
+  padding-inline: 2.4rem;
   width: 37.5rem;
 }
 
@@ -31,7 +34,7 @@ header::before {
   content: '';
 
   width: 100vw;
-  height: 108rem;
+  height: calc(108rem + var(--nav-height));
 
   background: var(--secondary-color);
 
@@ -44,7 +47,7 @@ header::before {
 }
 
 header {
-  margin-top: 4.1rem;
+  margin-top: calc(4.1rem + var(--nav-height));
 }
 
 header h4 {
@@ -137,7 +140,7 @@ header img {
 
   color: var(--primary-color);
 
-  font-weight: 400;
+  font-size: 1.6rem;
   line-height: 150%;
 }
 
@@ -145,8 +148,30 @@ header img {
 
 nav {
   display: flex;
+
+  height: var(--nav-height);
+
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+nav .wrapper {
+  display: flex;
   align-items: center;
   justify-content: space-between;
+}
 
-  padding: 1.6rem 2.4rem;
+nav.scroll {
+  background: var(--primary-color);
+  width: 100vw;
+}
+
+nav.scroll svg:nth-child(1) path {
+  fill: white;
+}
+
+nav.scroll svg:nth-child(2) path {
+  stroke: white;
 }
